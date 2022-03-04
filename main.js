@@ -11,10 +11,14 @@ const fetchData = () => {
     .then((result) => {
       displayTable(result.data); //should there be data here that I need to send in the called function
         generateSelectionOptions(result.data); //calling of functions //displayTable(result.data[o])
+        onDropdownChange(result.data);
         
-        document
-          .getElementById("search")
-          .addEventListener("input", () => onFilterEvent(result.data));
+        
+        
+        
+        // document
+        //   .getElementById("search")
+        //   .addEventListener("input", () => onFilterEvent(result.data));
           // .addEventListener("input", () => onSearchChange(result.data));
     });
 };
@@ -73,7 +77,7 @@ const generateSelectionOptions = (currencies) => {
     //Create Event Listener function
   const currencySelect = document.getElementById("currency-select");
   // currencySelect.addEventListener("change", () => onDropdownChange(currencies));
-  currencySelect.addEventListener("change", () => onFilterEvent(currencies));
+  //currencySelect.addEventListener("change", () => onFilterEvent(currencies));
   
   min_sizes.forEach((min_size) => {
     const option = document.createElement("option");
@@ -87,18 +91,56 @@ const generateSelectionOptions = (currencies) => {
 
  
 const onDropdownChange = (currencies) => {
-  const minSizeSelect = document.getElementById("currency-select").value;
+  console.log("dropdown function", currencies)
+  const minSizeSelect = document.getElementById("currency-select")
   console.log("minSizeSelect :>> ", minSizeSelect);
+  minSizeSelect.addEventListener("change", () => {
+    console.log('first')
+    onFilter(currencies)
 
-  const filteredCurrencies = currencies.filter((currency) => {
-    return currency.min_size == minSizeSelect || minSizeSelect == "all";
-  });
+  } )
 
-  console.log("filteredCurrencies :>> ", filteredCurrencies);
-  displayTable(filteredCurrencies);
+  // const filteredCurrencies = currencies.filter((currency) => {
+  //   return currency.min_size == minSizeSelect || minSizeSelect == "all";
+  // });
+
+  // console.log("filteredCurrencies :>> ", filteredCurrencies);
+  // displayTable(filteredCurrencies);
 };
 
- 
+const onFilter = (currencies) =>  {
+  console.log(currencies)
+const selectedValue = document.getElementById("currency-select").value;
+console.log('selectedValue', selectedValue)
+
+console.log(currencies)
+
+
+//filter function
+const filterValue = currencies.filter((currency) =>{
+
+  return (
+    selectedValue === "All Min Sizes" || selectedValue === currency.min_size
+  
+    )
+
+})
+console.log('filterValue', filterValue)
+
+displayTable(filterValue)
+}
+
+
+// console.log('filterValue XXXXXXX:>> ' , filterValue);
+
+  //what is the difference between this and other clo.
+
+
+
+
+
+
+
 
 
    //retrieve value of search input.
@@ -114,14 +156,16 @@ const onSearchChange = (currencies) => {
 
   })
 
-  const onFilterEvent = (currencies) => {
 
+//   const onFilterEvent = (currencies) => {
+//     const filteredCurrencies = currencies.filter(currency => {
 
-    
-  }
+//       return currency.id && currency.name
+//     })
 
-  displayTable(filteredCurrencies)
-};
+//   console.log('filteredCurrencies :>> ', filteredCurrencies);
+//   displayTable(filteredCurrencies)
+// };
   
 
     
@@ -147,9 +191,5 @@ const onSearchChange = (currencies) => {
 
     // render filter list in table
 // };
+}
 
-var no = document.getElementById("no");
-var option = no.options[no.selectedIndex].text;
-var txt = document.getElementById("result").value;
-txt = txt + option;
-document.getElementById("result").value = txt;

@@ -9,8 +9,8 @@ const fetchData = () => {
       return response.json();
     })
     .then((result) => {
-      displayTable(result.data); //should there be data here that I need to send in the called function
-        generateSelectionOptions(result.data); //calling of functions //displayTable(result.data[o])
+      displayTable(result.data); 
+        generateSelectionOptions(result.data); 
         onDropdownChange(result.data);
         
         
@@ -39,6 +39,7 @@ const displayTable = (data) => {
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
+    
 
     //td1.innerHTML = data.id + " " + data.name;
     td1.innerHTML = data.id;
@@ -58,12 +59,9 @@ const displayTable = (data) => {
 //generate select
 
 const generateSelectionOptions = (currencies) => {
-  //calling of the functions here from the top.
-  //       const  StateList  =  []                   //what functions should I use here for the return
-  //        members.forEach(member => {
-  //          stateList.push(member.state)
-  // })
-  //     console.log ('stateList', stateList)    //Hoe to access the specific key I want through loop
+  //calling of the functions here from the top.  //
+                 
+    //console.log ('stateList', stateList)    //How to access the specific key I want through loop
 
   const min_sizes = [];
   currencies.forEach((currency) => {
@@ -88,6 +86,8 @@ const generateSelectionOptions = (currencies) => {
   });
 };
  
+
+
 
  
 const onDropdownChange = (currencies) => {
@@ -116,6 +116,7 @@ console.log('selectedValue', selectedValue)
 console.log(currencies)
 
 
+  
 //filter function
 const filterValue = currencies.filter((currency) =>{
 
@@ -131,19 +132,35 @@ displayTable(filterValue)
 }
 
 
-// console.log('filterValue XXXXXXX:>> ' , filterValue);
+//my part
 
-  //what is the difference between this and other clo.
+const onCurrencyName = (currencies) => {
+  console.log(currencies)
+  
+  const selectedName = document.getElementById("currency-select").value;
+  console.log('selectedName', selectedName)
+
+  console.log(currencies)
+
+
+  //filter
+  const filteredName = currencies.filter((currency) => {
+
+    return (
+      selectedName === "All Currencies" || selectedName === currency.name
+
+      )
+  })
+  console.log('filteredName', filteredName)
+  displayTable(filteredName)
+  
+}
 
 
 
 
 
 
-
-
-
-   //retrieve value of search input.
 
 const onSearchChange = (currencies) => {
   const currencySearch = document.getElementById("search").value;
@@ -151,45 +168,9 @@ const onSearchChange = (currencies) => {
   console.log('currencySearch :>> ', currencySearch);
 
   const filteredCurrencies = currencies.filter(currency => {
-     return currency.id == currencySearch.toUpperCase() ||
-     currency.name.toLowerCase().includes(currencySearch.toLowerCase())
+    return currency.id == currencySearch.toUpperCase() ||
+      currency.name.toLowerCase().includes(currencySearch.toLowerCase())
 
-  })
-
-
-//   const onFilterEvent = (currencies) => {
-//     const filteredCurrencies = currencies.filter(currency => {
-
-//       return currency.id && currency.name
-//     })
-
-//   console.log('filteredCurrencies :>> ', filteredCurrencies);
-//   displayTable(filteredCurrencies)
-// };
+  } )
   
-
-    
-//     // retrieve value of search inpüt,.
-//     var at = document.getElementById("email").value.indexOf("@");
-// var age = document.getElementById("age").value;
-// var fname = document.getElementById("fname").value;
-// submitOK = "true";
-
-        
-
-// if (fname.length > 10) {
-//   alert("The name may have no more than 10 characters");
-//   submitOK = "false";
-// }
-
-// if (isNaN(age) || age < 1 || age > 100) {
-//   alert("The age must be a number between 1 and 100");
-//   submitOK = "false";
-// }
-
-    // filter array 
-
-    // render filter list in table
-// };
 }
-
